@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block css %}
+<style>
+    table.sortable thead {
+        background-color: #eee;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .player:hover {
+        background-color: lightgreen;
+        cursor: pointer;
+    }
+
+    .taken {
+        display: none;
+    }
+
+    .filter {
+        display: none;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+
+<div class="input-group">
+    <div class="input-group-btn">
+        <button type="button" class="btn btn-default" onclick="undo();">Undo Draft Player</button>
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu">
+            <li>Show drafted players<li>
+            <li>Reset</li>
+        </ul>
+    </div>
+    <input id="player-search" type="text" class="form-control">
+</div>
+
+<table class="sortable table" id="players">
+    <tr id="header">
+        {% for token in header %}
+        <th class="token">{{ token }}</th>
+        {% endfor %}
+    </tr>
+    {% for player in players %}
+    <tr class="player" onclick="draft(this);">
+        {% for token in player %}
+            {% if loop.index0 == player_index %}
+            <td class="token name">{{ token }}</td>
+            {% else %}
+            <td class="token">{{ token }}</td>
+            {% endif %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
+
+{% block js %}
+<script src="/static/js/tablesort.js"></script>
+<script src="/static/js/drafthub.js"></script>
+{% endblock %}
+

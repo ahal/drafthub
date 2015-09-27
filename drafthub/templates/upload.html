@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<form id="csv-upload" action="" method="post" enctype=multipart/form-data>
+    <div class="form-group">
+        <label for="csv_file">Upload .csv formatted data file</label>
+        <input id="csv_file" type="file" name="csv_path" accept=".csv">
+    </div>
+    <input type="submit" value="Submit" class="btn btn-default">
+</form>
+{% endblock %}
