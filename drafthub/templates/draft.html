@@ -26,6 +26,8 @@
 {% block body %}
 
 <div class="input-group">
+    <span class="input-group-addon" id="current-pick-addon">Current pick: <span id="current-pick">1</span> </span>
+    <input id="player-search" type="text" class="form-control" aria-described-by="player-addon">
     <div class="input-group-btn">
         <button type="button" class="btn btn-default" onclick="undo();">Undo Draft Player</button>
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -37,7 +39,6 @@
             <li>Reset</li>
         </ul>
     </div>
-    <input id="player-search" type="text" class="form-control">
 </div>
 
 <table class="sortable table" id="players">
