@@ -32,10 +32,10 @@
             Position <span class="caret"></span>
         </button>
         <ul id="position" class="dropdown-menu">
-            <li><span>All</span></li>
-            <li><span>Forward</span></li>
-            <li><span>Defense</span></li>
-            <li><span>Goalie</span></li>
+            <li><a href="#">All</a></li>
+            <li><a href="#">Forward</a></li>
+            <li><a href="#">Defense</a></li>
+            <li><a href="#">Goalie</a></li>
         </ul>
     </div>
     <input id="search" type="text" class="form-control" aria-described-by="player-addon">
@@ -61,11 +61,7 @@
     {% for player in players %}
     <tr class="player">
         {% for token in player %}
-            {% if loop.index0 == player_index %}
-            <td class="token name">{{ token }}</td>
-            {% else %}
             <td class="token">{{ token }}</td>
-            {% endif %}
         {% endfor %}
     </tr>
     {% endfor %}

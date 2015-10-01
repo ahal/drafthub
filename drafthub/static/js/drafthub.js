@@ -12,6 +12,11 @@ function draft(player) {
     $('#current-pick').html(parseInt($('#current-pick').html(), 10) + 1);
 }
 
+function getColumn(header) {
+    var i = $("#players tr th:contains('" + header + "')").index() + 1;
+    return $("#players tr:gt(0) td:nth-child(" + i + ")");
+}
+
 $(function() {
     $('.player').bind('click', function() {
         drafted.push(this);
@@ -19,16 +24,17 @@ $(function() {
     });
 
     $('#search').bind('input propertychange', function() {
-        var search = $(this).val();
+        var search = $(this).val().toLowerCase();
 
-        $('td.name').each(function(index, node) {
-            var name = node.innerHTML;
-            var parentNode = node.parentNode;
+        // TODO make generic
+        getColumn('PLAYER').each(function(index, node) {
+            var name = node.innerHTML.toLowerCase();
+            var parentNode = $(node.parentNode);
 
             if (!search || name.indexOf(search) != -1) {
-                parentNode.className = parentNode.className.replace('filter', '');
-            } else if (name.indexOf(search) == -1 && parentNode.className.indexOf('filter') == -1) {
-                parentNode.className = 'filter ' + parentNode.className;
+                parentNode.removeClass('filter');
+            } else if (name.indexOf(search) == -1) {
+                parentNode.addClass('filter');
             }
         });
     });
@@ -59,6 +65,9 @@ $(function() {
     $('#position > li > span').bind('click', function() {
         var names = positions[this.innerHTML];
 
+        // TODO make generic
+        getColumn('ypos').each(function(index, node) {
 
+        });
     });
 });
