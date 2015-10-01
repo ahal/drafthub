@@ -1,11 +1,32 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<form id="csv-upload" action="" method="post" enctype=multipart/form-data>
-    <div class="form-group">
-        <label for="csv_file">Upload .csv formatted data file</label>
-        <input id="csv_file" type="file" name="csv_path" accept=".csv">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 col-md-offset-1">
+            <form id="upload" action="/draft" method="post" enctype=multipart/form-data>
+                <div class="form-group">
+                    <label for="game">Game</label><br>
+                    <select id="game" name="game">
+                        <option value="nhl" selected="selected">NHL</option>
+                        <option value="nfl">NFL</option>
+                        <option value="mlb">MLB</option>
+                        <option value="nba">NBA</option>
+                    </select><br>
+                </div>
+
+                <div class="form-group">
+                    <label for="league_id">League ID</label><br>
+                    <input id="league_id" class="form-control" type="text" name="league_id">
+                </div>
+
+                <div class="form-group">
+                    <label for="csv_file">Upload .csv formatted data file</label>
+                    <input id="csv_file" type="file" name="csv_path" accept=".csv">
+                </div>
+                <input type="submit" value="Submit" class="btn btn-default">
+            </form>
+        </div>
     </div>
-    <input type="submit" value="Submit" class="btn btn-default">
-</form>
+</div>
 {% endblock %}

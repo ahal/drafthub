@@ -27,17 +27,28 @@
 
 <div class="input-group">
     <span class="input-group-addon" id="current-pick-addon">Current pick: <span id="current-pick">1</span> </span>
-    <input id="player-search" type="text" class="form-control" aria-described-by="player-addon">
     <div class="input-group-btn">
-        <button type="button" class="btn btn-default" onclick="undo();">Undo Draft Player</button>
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="caret"></span>
-            <span class="sr-only">Toggle Dropdown</span>
+            Position <span class="caret"></span>
+        </button>
+        <ul id="position" class="dropdown-menu">
+            <li><span>All</span></li>
+            <li><span>Forward</span></li>
+            <li><span>Defense</span></li>
+            <li><span>Goalie</span></li>
+        </ul>
+    </div>
+    <input id="search" type="text" class="form-control" aria-described-by="player-addon">
+    <div class="input-group-btn">
+        <button id="options" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Options <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
-            <li>Show drafted players<li>
-            <li>Reset</li>
+            <li><a id="undo" href="#">Undo Draft Player</a></li>
+            <li><a href="#">Show drafted players</a></li>
+            <li><a href="#">Reset</a></li>
         </ul>
+        <button id="refresh" type="button" class="btn btn-primary">Refresh</button>
     </div>
 </div>
 
@@ -48,7 +59,7 @@
         {% endfor %}
     </tr>
     {% for player in players %}
-    <tr class="player" onclick="draft(this);">
+    <tr class="player">
         {% for token in player %}
             {% if loop.index0 == player_index %}
             <td class="token name">{{ token }}</td>
