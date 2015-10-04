@@ -1,6 +1,6 @@
 var drafted = [];
 var positions = {
-    'All': ['C', 'LW', 'RW', 'D', 'G'],
+    'All Positions': ['C', 'LW', 'RW', 'D', 'G'],
     'Forward': ['C', 'LW', 'RW'],
     'Defense': ['D'],
     'Goalie': ['G']
@@ -59,15 +59,32 @@ $(function() {
         }
         var player = drafted.pop();
         player.className = player.className.replace('taken', '');
-
+        $('#current-pick').html(parseInt($('#current-pick').html(), 10) - 1);
     });
 
-    $('#position > li > span').bind('click', function() {
+    $('#position > li > a').bind('click', function() {
         var names = positions[this.innerHTML];
+        $('#position-label').html(this.innerHTML);
 
         // TODO make generic
-        getColumn('ypos').each(function(index, node) {
+        getColumn('POS').each(function(index, node) {
+            var pos = node.innerHTML;
+            var parentNode = $(node.parentNode);
 
+            var found = false;
+            for (var i = 0; i < names.length; ++i) {
+                var name = names[i];
+                if (pos.indexOf(name) != -1) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                parentNode.addClass('filter');
+            } else {
+                parentNode.removeClass('filter');
+            }
         });
     });
 });
