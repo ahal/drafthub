@@ -7,8 +7,7 @@ var positions = {
 };
 
 function draft(player) {
-    player.className = 'taken ' + player.className;
-
+    player.addClass('taken');
     $('#current-pick').html(parseInt($('#current-pick').html(), 10) + 1);
 }
 
@@ -42,12 +41,17 @@ $(function() {
     $('#refresh').bind('click', function() {
         $.getJSON($SCRIPT_ROOT + '/_refresh', null, function(data) {
             var picks = data['picks'];
-            console.log(picks);
-            $('td.name').each(function(index, node) {
-                var name = node.innerHTML;
+            var teams = data['teams'];
 
-                if (picks.indexOf(name) > -1) {
-                    draft(node.parentNode);
+            console.log(picks);
+            $('.player > td:nth-child(2)').each(function(index, node) {
+                var index = picks.indexOf(node.innerHTML);
+
+                if (index > -1) {
+                    var parentNode = $(node.parentNode);
+
+                    draft(parentNode);
+                    parentNode.addClass(teams[index].replace(' ', '_'));
                 }
             });
         });
@@ -86,5 +90,38 @@ $(function() {
                 parentNode.removeClass('filter');
             }
         });
+    });
+
+    $('#team > li > a').bind('click', function() {
+        var team = this.innerHTML.replace(' ', '_');
+        $('#team-label').html(team);
+
+        if (team == 'Available') {
+            $('.player').each(function(index, node) {
+                $(node).removeClass('filter');
+            });
+            return;
+        }
+
+        $('.player').each(function(index, node) {
+            var parentNode = $(node.parentNode);
+            parentNode.addClass('filter');
+        });
+
+        $('.' + team).each(function(index, node) {
+            var parentNode = $(node.parentNode);
+            parentNode.removeClass('filter taken');
+        });
+
+        // TODO make generic
+        var columns = ['GFSI', 'AFSI', 'PPPFSI', 'PIMFSI', 'BLKFSI', 'WFSI', 'GAAFSI', 'SVPFSI', 'PR'];
+
+        for (var i = 0; i < columns.length; ++i) {
+            var col = columns[i];
+
+            getColumn(col).each(function(index, node) {
+
+            });
+        }
     });
 });

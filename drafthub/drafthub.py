@@ -46,9 +46,11 @@ class DraftState(object):
         # TODO exclude known picks from query
         picks = self._query(QUERY_DRAFT_RESULTS.format(self.league_key))['league']['draft_results']['draft_result'][self.last_pick:]
         player_keys = []
+        teams = []
         for p in picks:
             if 'player_key' in p and p['player_key']:
                 player_keys.append("'{}'".format(p['player_key']))
+                teams.append(self.teams[p['team_key']])
             else:
                 self.last_pick = int(p['pick']) - 1
                 break
@@ -62,7 +64,7 @@ class DraftState(object):
 
             players = [p['name']['full'] for p in players]
 
-        return jsonify(picks=players)
+        return jsonify(picks=players, teams=teams)
 
 
 @app.route('/')
@@ -72,6 +74,8 @@ def index():
 
 @app.route('/draft', methods=['GET', 'POST'])
 def draft():
+    global state
+
     if request.method == 'POST':
         reader = csv.reader(request.files['csv_path'])
         lines = []
@@ -79,7 +83,6 @@ def draft():
             lines.append(row)
 
         if request.form['game'] and request.form['league_id']:
-            global state
             league_key = '{}.l.{}'.format(request.form['game'], request.form['league_id'])
             state = DraftState(league_key)
 
@@ -96,6 +99,8 @@ def draft():
             'players': lines,
             'player_index': player_index,
         }
+        if state:
+            context['teams'] = sorted(state.teams.values())
         return render_template('draft.html', **context)
     return render_template('upload.html')
 
